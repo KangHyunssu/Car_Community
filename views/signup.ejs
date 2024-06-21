@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header-top">
+        <div class="logo">
+          <a href="/" class="title-a"><h1>Car ffeine</h1></a> 
+        </div>
+        <div class="head-rt">
+          <div class="button-container"> 
+            <form action="/login" method="get">
+                <button type="submit" class="btn btn-outline-success btn-login">로그인</button>
+            </form>
+            <a href="/signup" class="btn btn-outline-success btn-signup">회원가입</a>
+          </div>
+        </div>
+        
+      </header>
+      <div class="signup-container">
+        <!-- 회원가입 제목 -->
+        <h2>회원가입</h2>
+        <!-- 회원가입 폼 -->
+        <form action="/signup" method="post">
+            <!-- 닉네임 입력 필드 -->
+            <input type="text" name="nickname" placeholder="닉네임" required>
+            <!-- 이메일 입력 필드 -->
+            <input type="email" name="email" placeholder="이메일" required>
+            <!-- 비밀번호 입력 필드 -->
+            <input type="password" name="password" placeholder="비밀번호" required>
+            <!-- 가입하기 버튼 -->
+            <button type="submit">가입하기</button>
+        </form>
+        <!-- 로그인 페이지 링크 -->
+        <p>이미 계정이 있으신가요? <a href="/login">로그인</a></p>
+       </div>
+    
+      <footer>
+        <p>&copy; 2024 자동차 커뮤니티. Carffeine.</p>
+      </footer>
+</body>
+</html>

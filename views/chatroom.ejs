@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= brand %> 채팅방</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+  <header class="header-top">
+    <div class="logo">
+      <a href="/" class="title-a"><h1>Car ffeine</h1></a> 
+    </div>
+    <div class="head-rt">
+      <div class="button-container">
+        <% if (user) { %>
+        <a class="btn btn-outline-success btn-login"><%= user.nickname %></a>
+        <a href="/logout" class="btn btn-outline-success btn-signup">로그아웃</a>
+        <% } else { %>
+        <a href="/login" class="btn btn-outline-success btn-login">로그인</a>
+        <a href="/signup" class="btn btn-outline-success btn-signup">회원가입</a>
+        <% } %>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <!-- 채팅방 제목 -->
+    <h1><%= brand %> 채팅방</h1>
+    
+    <!-- 채팅 컨테이너 -->
+    <div id="chat-container">
+        <!-- 메시지 목록을 표시하는 컨테이너 -->
+        <div id="messages">
+            <!-- 서버에서 전달된 메시지 목록을 순회 -->
+            <% messages.forEach(message => { %>
+                <!-- 각 메시지 요소 -->
+                <div class="message <%= message.user === user.nickname ? 'self' : '' %>">
+                    <!-- 메시지 정보 -->
+                    <div class="info">
+                        <!-- 메시지 사용자 이름 -->
+                        <span class="user"><%= message.user %></span>
+                        <!-- 메시지 타임스탬프 -->
+                        <span class="timestamp"><%= new Date(message.timestamp).toLocaleTimeString() %></span>
+                    </div>
+                    <!-- 메시지 내용 -->
+                    <div class="text"><%= message.message %></div>
+                </div>
+            <% }); %>
+        </div>
+        
+        <!-- 채팅 메시지를 입력하는 폼 -->
+        <form id="chat-form">
+            <input type="text" id="message-input" placeholder="메시지를 입력하세요" autocomplete="off">
+            <button type="submit">전송</button>
+        </form>
+    </div>
+</main>
+
+<!-- 페이지 푸터 -->
+<footer>
+    <p>&copy; 2024 자동차 커뮤니티. All rights reserved.</p>
+</footer>
+
+<!-- Socket.IO 클라이언트 스크립트 -->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io(); // Socket.IO 클라이언트 초기화
+  
+    // 채팅방에 조인
+    socket.emit('joinRoom', { brand: '<%= brand %>', user: { nickname: '<%= user.nickname %>' } });
+  
+    // 서버로부터 메시지 수신
+    socket.on('message', message => {
+        const messageElement = document.createElement('div'); // 새로운 메시지 요소 생성
+        messageElement.classList.add('message'); // 메시지 클래스 추가
+        if (message.user === '<%= user.nickname %>') {
+            messageElement.classList.add('self'); // 자기 자신의 메시지일 경우 self 클래스 추가
+        }
+        const now = new Date(); // 현재 시간 객체 생성
+        messageElement.innerHTML = `
+            <div class="info">
+                <span class="user">${message.user}</span> <!-- 메시지 사용자 이름 -->
+                <span class="timestamp">${now.toLocaleTimeString()}</span> <!-- 메시지 타임스탬프 -->
+            </div>
+            <div class="text">${message.message}</div> <!-- 메시지 내용 -->
+        `;
+        document.getElementById('messages').appendChild(messageElement); // 메시지 목록에 새로운 메시지 요소 추가
+        document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight; // 스크롤을 가장 아래로 이동
+    });
+  
+    // 메시지 전송
+    document.getElementById('chat-form').addEventListener('submit', (e) => {
+        e.preventDefault(); // 폼 제출 기본 동작 막기
+        const messageInput = document.getElementById('message-input'); // 메시지 입력 필드 가져오기
+        const message = messageInput.value; // 입력된 메시지 값 가져오기
+        const now = new Date(); // 현재 시간 객체 생성
+        // 서버로 메시지 전송
+        socket.emit('chatMessage', { brand: '<%= brand %>', message, timestamp: now.toISOString(), user: { nickname: '<%= user.nickname %>' } });
+        messageInput.value = ''; // 입력 필드 초기화
+    });
+  </script>
+</body>
+
+</html>

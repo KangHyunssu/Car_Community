@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car ffeine - 용어 상세</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+.header-top {
+    background-color: #f8f9fa;
+    padding: 1rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.logo {
+    text-align: center;
+}
+
+.head-rt {
+    text-align: right;
+    padding: 0.5rem;
+}
+
+.button-container .btn {
+    margin: 0 0.5rem;
+}
+
+.nav {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.zzul {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.term-detail {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.term-title {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.image-container {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.term-image, .additional-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+}
+
+.term-description {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.detail-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.detailed-description {
+    font-size: 1rem;
+    white-space: pre-wrap;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    margin-top: 2rem;
+}
+
+</style>
+<body>
+    <header class="header-top">
+        <div class="logo">
+            <a href="/" class="title-a"><h1>Car ffeine</h1></a> 
+        </div>
+        <div class="head-rt">
+            <div class="button-container">
+              <% if (user) { %>
+                <a class="btn btn-outline-success btn-login"><%= user.nickname %></a>
+                <a href="/logout" class="btn btn-outline-success btn-signup">로그아웃</a>
+              <% } else { %>
+                <a href="/login" class="btn btn-outline-success btn-login">로그인</a>
+                <a href="/signup" class="btn btn-outline-success btn-signup">회원가입</a>
+              <% } %>
+            </div>
+          </div>
+          </div>
+      </header>
+
+    <nav class="zzul">
+        <button type="button" class="btn btn-outline-red" onclick="location.href='/chat'">그룹채팅</button>
+        <button type="button" class="btn btn-outline-dark" onclick="location.href='/carboard'">자동차 게시판</button>
+        <button type="button" class="btn btn-outline-primary" onclick="location.href='/freeboard'">자유게시판</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="location.href='/newsboard'">뉴스게시판</button>
+        <button type="button" class="btn btn-outline-success" onclick="location.href='/termboard'">용어게시판</button>
+    </nav>
+
+    <main class="container mt-4">
+        <div class="row">
+            <!-- 용어 상세 정보 섹션 -->
+            <div class="term-detail">
+                <!-- 용어 제목 -->
+                <h1 class="term-title"><%= term.term_title %></h1>
+                <!-- 이미지 컨테이너 -->
+                <div class="image-container">
+                    <!-- 용어 이미지 -->
+                    <img src="<%= term.term_image %>" alt="<%= term.term_title %>" class="term-image">
+                </div>
+                <!-- 용어 설명 -->
+                <p class="term-description"><%= term.term_description %></p>
+                <!-- 자세한 설명 제목 -->
+                <h2 class="detail-title">자세한 설명</h2>
+                <!-- 자세한 설명 내용 -->
+                <pre class="detailed-description"><%= term.detailed_description %></pre>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 자동차 커뮤니티. Carffeine.</p>
+    </footer>
+</body>
+</html>

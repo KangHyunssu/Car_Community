@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="header-top">
+        <!-- 로고 섹션 -->
+        <div class="logo">
+            <!-- 홈페이지 링크 -->
+            <a href="/" class="title-a"><h1>Car ffeine</h1></a>
+        </div>
+    </header>
+    
+    <!-- 회원가입 컨테이너 -->
+    <div class="signup-container">
+        <!-- 로그인 컨테이너 -->
+        <div class="login-container">
+            <h2>로그인</h2>
+            <!-- 오류 메시지가 있는 경우 표시 -->
+            <% if (typeof error !== 'undefined') { %>
+                <p class="error_log"><%= error %></p>
+            <% } %>
+            <!-- 로그인 폼 -->
+            <form action="/login" method="post">
+                <!-- 이메일 입력 필드 -->
+                <input type="email" name="email" placeholder="이메일" required>
+                <!-- 비밀번호 입력 필드 -->
+                <input type="password" name="password" placeholder="비밀번호" required>
+                <!-- 로그인 버튼 -->
+                <button type="submit">로그인</button>
+            </form>
+            <!-- 회원가입 링크 -->
+            <p>계정이 없으신가요? <a href="/signup">회원가입</a></p>
+        </div>
+    </div>
+    
+
+    <footer>
+        <p>&copy; 2024 자동차 커뮤니티. Carffeine.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- 문자 인코딩 설정 -->
+  <meta charset="UTF-8">
+  <!-- IE 호환성 모드 설정 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 뷰포트 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 페이지 제목 -->
+  <title>Car ffeine</title>
+  <!-- 외부 스타일 시트 연결 -->
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="header-top">
+    <!-- 로고 섹션 -->
+    <div class="logo">
+      <!-- 홈페이지 링크 -->
+      <a href="/" class="title-a"><h1>Car ffeine</h1></a> 
+    </div>
+    <!-- 헤더 오른쪽 섹션 -->
+    <div class="head-rt">
+      <div class="button-container">
+        <!-- 사용자가 로그인한 경우 -->
+        <% if (user) { %>
+          <!-- 로그인된 사용자 닉네임 표시 -->
+          <a class="btn btn-outline-success btn-login"><%= user.nickname %></a>
+          <!-- 로그아웃 링크 -->
+          <a href="/logout" class="btn btn-outline-success btn-signup">로그아웃</a>
+        <% } else { %>
+          <!-- 로그인 페이지 링크 -->
+          <a href="/login" class="btn btn-outline-success btn-login">로그인</a>
+          <!-- 회원가입 페이지 링크 -->
+          <a href="/signup" class="btn btn-outline-success btn-signup">회원가입</a>
+        <% } %>
+      </div>
+    </div>
+  </header>
+
+
+  <nav class="zzul">
+    <button type="button" class="btn btn-outline-red" onclick="location.href='/chat'">그룹채팅</button>
+        <button type="button" class="btn btn-outline-dark" onclick="location.href='/carboard'">자동차 게시판</button>
+        <button type="button" class="btn btn-outline-primary" onclick="location.href='/freeboard'">자유게시판</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="location.href='/newsboard'">뉴스게시판</button>
+        <button type="button" class="btn btn-outline-success" onclick="location.href='/termboard'">용어게시판</button>
+  </nav>
+
+  <main class="main">
+    <!-- 뉴스 슬라이더 섹션 -->
+    <div class="news-slider">
+        <!-- 뉴스 기사를 슬라이드로 표시 -->
+        <% for(let i = 0; i < articles.length; i += 6) { %>
+            <div class="slide <%= i === 0 ? 'active' : '' %>">
+                <!-- 슬라이드에 6개의 뉴스 기사 표시 -->
+                <% for(let j = i; j < i + 6 && j < articles.length; j++) { %>
+                    <a href="<%= articles[j].url %>" target="_blank">
+                        <div class="news-item">
+                            <img src="<%= articles[j].urlToImage %>" alt="<%= articles[j].title %>" style="width:100%; max-height:200px; object-fit:cover;">
+                            <p><%= articles[j].title %></p>
+                        </div>
+                    </a>
+                <% } %>
+            </div>
+        <% } %>
+        <!-- 슬라이드 이전 버튼 -->
+        <a class="prev" onclick="moveSlide(-1)">&#10094;</a>
+        <!-- 슬라이드 다음 버튼 -->
+        <a class="next" onclick="moveSlide(1)">&#10095;</a>
+    </div>
+
+    <!-- 배너 섹션 -->
+    <div class="banner">
+        <p><a href="/salesRank" class="title-a">내차의 판매 순위가 궁금하다면? </a></p>
+    </div>
+
+    <!-- 커뮤니티 베스트 섹션 -->
+    <div class="community-best">
+        <!-- 커뮤니티 베스트 제목 -->
+        <h1 class="board-main">커뮤니티 베스트</h1>
+        <!-- 게시글 목록을 담는 리스트 -->
+        <ul class="list-group">
+            <!-- 서버에서 전달된 posts 배열을 순회하여 각 게시글을 표시 -->
+            <% posts.forEach(function(post) { %>
+                <li class="list-group-item">
+                    <!-- 게시글 제목 링크 -->
+                    <div class="li-title">
+                        <a href="/freeboard/<%= post.id %>">[자유] <%= post.title %></a>
+                    </div>
+                    <!-- 게시글 세부 정보 -->
+                    <div class="li-detail"> 작성자: <%= post.author %> | <%= post.formattedDate %> | 공감수: <%= post.likes %></div>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+  </main>
+
+
+  <footer>
+    <p>&copy; 2024 자동차 커뮤니티. Carffeine.</p>
+  </footer>
+</body>
+</html>
+
+<script>
+  let slideIndex = 1; // 슬라이드 인덱스를 1로 초기화
+  showSlides(slideIndex); // 초기 슬라이드를 표시
+  
+  function moveSlide(n) {
+    showSlides(slideIndex += n); // 슬라이드 인덱스를 n만큼 증가시키고 슬라이드를 표시
+  }
+  
+  function showSlides(n) {
+    let i;
+    let slides = document.getElementsByClassName("slide"); // "slide" 클래스를 가진 모든 요소를 가져옴
+    if (n > slides.length) {slideIndex = 1} // 인덱스가 슬라이드 수를 초과하면 첫 번째 슬라이드로 설정
+    if (n < 1) {slideIndex = slides.length} // 인덱스가 1보다 작으면 마지막 슬라이드로 설정
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none"; // 모든 슬라이드를 숨김
+    }
+    slides[slideIndex-1].style.display = "flex"; // 현재 슬라이드 인덱스에 해당하는 슬라이드를 표시
+  }
+</script>
+  

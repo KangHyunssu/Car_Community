@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= post.title %> | Car ffeine</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+
+<body>
+    <header class="header-top">
+        <div class="logo">
+            <a href="/" class="title-a"><h1>Car ffeine</h1></a> 
+        </div>
+        <div class="head-rt">
+            <div class="button-container">
+                <% if (user) { %>
+                    <a class="btn btn-outline-success btn-login"><%= user.nickname %></a>
+                    <a href="/logout" class="btn btn-outline-success btn-signup">로그아웃</a>
+                <% } else { %>
+                    <a href="/login" class="btn btn-outline-success btn-login">로그인</a>
+                    <a href="/signup" class="btn btn-outline-success btn-signup">회원가입</a>
+                <% } %>
+            </div>
+        </div>
+    </header>
+    <main class="main">
+        <!-- 글 작성 컨테이너 -->
+        <div class="write-container">
+            <!-- 게시글 제목 -->
+            <h1><%= post.title %></h1>
+            <hr>
+            <!-- 게시글 내용 -->
+            <p><%= post.content %></p>
+            <hr>
+            <!-- 작성자 정보 -->
+            <p>작성자: <%= post.author %></p>
+            <hr>
+            <!-- 조회수와 공감수 -->
+            <p>조회수: <%= post.views %> | 공감수: <span id="likes-count"><%= post.likes %></span></p>
+            <!-- 공감하기 폼 -->
+            <form action="/freeboard/like/<%= post.id %>" method="post">
+                <% if (user) { %>
+                    <!-- 로그인된 사용자의 경우 공감하기 버튼 -->
+                    <button type="button" class="like-button" data-post-id="<%= post.id %>">공감하기</button>
+                <% } else { %>
+                    <!-- 로그인되지 않은 사용자의 경우 로그인 후 사용 가능 메시지와 함께 로그인 페이지로 리다이렉트 -->
+                    <button type="button" class="like-button" onclick="if(confirm('로그인 후 사용 가능합니다.')) { window.location.href='/login'; }">공감하기</button>
+                <% } %>
+            </form>
+    
+            <!-- 첨부된 이미지가 있는 경우 이미지 표시 -->
+            <% if (post.image_url) { %>
+                <img src="<%= post.image_url %>" alt="Attached Image" style="max-width: 100%;">
+            <% } %>
+    
+            <!-- 댓글 섹션 -->
+            <section class="comments">
+                <h3>댓글</h3>
+                <!-- 댓글 작성 폼 -->
+                <form action="/freeboard/<%= post.id %>/comment" method="post" onsubmit="return checkLogin();">
+                    <textarea name="comment" required placeholder="댓글을 입력하세요"></textarea>
+                    <button type="submit">댓글 달기</button>
+                </form>
+                <!-- 댓글 목록 제목 -->
+                <h3>댓글 목록</h3>
+                <!-- 댓글이 있는 경우 -->
+                <% if (comments.length > 0) { %>
+                    <ul>
+                        <!-- 각 댓글을 순회하며 표시 -->
+                        <% comments.forEach(comment => { %>
+                            <li class="comment-container">
+                                <!-- 댓글 내용 -->
+                                <span class="comment-text"><%= comment.author %>: <%= comment.content %></span>
+                                <!-- 댓글 작성자 또는 관리자인 경우 삭제 버튼 표시 -->
+                                <% if (user && (user.role === 'admin' || user.nickname === comment.author)) { %>
+                                    <form action="/freeboard/comment/delete/<%= comment.id %>" method="post" class="delete-button">
+                                        <button type="submit">삭제</button>
+                                    </form>
+                                <% } %>
+                            </li>
+                        <% }); %>
+                    </ul>
+                <!-- 댓글이 없는 경우 -->
+                <% } else { %>
+                    <p>댓글이 없습니다.</p>
+                <% } %>
+            </section>
+    
+            <!-- 목록으로 돌아가기 버튼 -->
+            <div class="button-container">
+                <a href="/freeboard" class="back-to-list">목록으로 돌아가기</a>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <p>&copy; 2024 자동차 커뮤니티. Carffeine.</p>
+    </footer>
+    
+    <script>
+        window.onload = function() {
+            // 모든 공감하기 버튼을 선택
+            const likeButtons = document.querySelectorAll('.like-button');
+            // 각 버튼에 대해 클릭 이벤트 리스너 추가
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault(); // 기본 동작(폼 제출) 방지
+                    const postId = this.dataset.postId; // 버튼의 data-post-id 속성에서 게시글 ID 가져오기
+                    // 서버에 POST 요청 보내기
+                    fetch(`/freeboard/like/${postId}`, {
+                        method: 'POST' // 요청 메서드는 POST
+                    })
+                    .then(response => response.json()) // 응답을 JSON 형식으로 파싱
+                    .then(data => {
+                        if (data.success) { // 요청이 성공한 경우
+                            // 공감수 업데이트
+                            document.getElementById('likes-count').textContent = data.likes;
+                        } else { // 요청이 실패한 경우
+                            console.error('공감수 업데이트 실패', data.message); // 오류 메시지 출력
+                        }
+                    })
+                    .catch(error => console.error('Error:', error)); // 네트워크 오류 처리
+                });
+            });
+        };
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자동차 판매 순위</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header class="header-top">
+        <div class="logo">
+            <a href="/" class="title-a"><h1>Car ffeine</h1></a> 
+        </div>
+        <div class="head-rt">
+            <div class="button-container">
+                <% if (user) { %>
+                    <a class="btn btn-outline-success btn-login"><%= user.nickname %></a>
+                    <a href="/logout" class="btn btn-outline-success btn-signup">로그아웃</a>
+                <% } else { %>
+                    <a href="/login" class="btn btn-outline-success btn-login">로그인</a>
+                    <a href="/signup" class="btn btn-outline-success btn-signup">회원가입</a>
+                <% } %>
+            </div>
+        </div>
+    </header>
+
+    <nav class="zzul">
+        <button type="button" class="btn btn-outline-red" onclick="location.href='/chat'">그룹채팅</button>
+        <button type="button" class="btn btn-outline-dark" onclick="location.href='/carboard'">자동차 게시판</button>
+        <button type="button" class="btn btn-outline-primary" onclick="location.href='/freeboard'">자유게시판</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="location.href='/newsboard'">뉴스게시판</button>
+        <button type="button" class="btn btn-outline-success" onclick="location.href='/termboard'">용어게시판</button>
+    </nav>
+
+    <main class="main">
+        <!-- 페이지 제목 -->
+        <h1>자동차 판매 순위</h1>
+        <!-- 자동차 순위 목록 -->
+        <ul class="ranking-list">
+            <!-- 서버에서 전달된 cars 배열을 순회하여 각 자동차를 표시 -->
+            <% cars.forEach(function(car, index) { %>
+                <!-- 순위가 3위 이내일 경우 'top-three' 클래스를 추가 -->
+                <li class="ranking-item <%= (index < 3) ? 'top-three' : '' %>">
+                    <!-- 순위 배지 -->
+                    <span class="rank-badge"><%= car.ranking %></span>
+                    <!-- 자동차 이름 -->
+                    <h2><%= car.car_name %></h2>
+                    <!-- 자동차 이미지 -->
+                    <img src="/img/<%= car.image_url %>" alt="<%= car.car_name %> 이미지" class="ranking-img">
+                </li>
+            <% }); %>
+        </ul>
+    </main>
+    
+
+    <footer>
+        <p>&copy; 2024 자동차 커뮤니티. Carffeine.</p>
+    </footer>
+</body>
+</html>

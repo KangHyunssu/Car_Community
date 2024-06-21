@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car ffeine - 자동차 게시판</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header class="header-top">
+        <div class="logo">
+            <a href="/" class="title-a"><h1>Car ffeine</h1></a> 
+        </div>
+        <div class="head-rt">
+            <div class="button-container">
+                <% if (user) { %>
+                    <a class="btn btn-outline-success btn-login"><%= user.nickname %></a>
+                    <a href="/logout" class="btn btn-outline-success btn-signup">로그아웃</a>
+                <% } else { %>
+                    <a href="/login" class="btn btn-outline-success btn-login">로그인</a>
+                    <a href="/signup" class="btn btn-outline-success btn-signup">회원가입</a>
+                <% } %>
+            </div>
+        </div>
+    </header>
+
+    <nav class="zzul">
+        <button type="button" class="btn btn-outline-red" onclick="location.href='/chat'">그룹채팅</button>
+        <button type="button" class="btn btn-outline-dark" onclick="location.href='/carboard'">자동차 게시판</button>
+        <button type="button" class="btn btn-outline-primary" onclick="location.href='/freeboard'">자유게시판</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="location.href='/newsboard'">뉴스게시판</button>
+        <button type="button" class="btn btn-outline-success" onclick="location.href='/termboard'">용어게시판</button>
+    </nav>
+
+    <main class="main">
+        <!-- 커뮤니티 베스트 섹션 시작 -->
+        <div class="community-best">
+            <!-- 페이지 제목 -->
+            <h1 class="board-main">원하는 브랜드를 선택하세요!</h1>
+            
+            <!-- 브랜드 목록을 담는 리스트 -->
+            <ul class="brand-list">
+                <!-- 서버에서 전달된 brands 배열을 순회하여 각 브랜드를 표시 -->
+                <% brands.forEach(brand => { %>
+                <li class="brand-item">
+                    <!-- 브랜드 버튼, 클릭 시 해당 브랜드의 모델 페이지로 이동 -->
+                    <button class="brand-btn" onclick="location.href='/carModels/<%= brand.id %>'">
+                        <!-- 브랜드 이미지 표시 -->
+                        <img class="brand-img" src="<%= brand.image_url %>" alt="<%= brand.name %>">
+                    </button>
+                </li>
+                <% }) %>
+            </ul>
+        </div>
+    </main>
+    
+
+    <footer>
+        <p>&copy; 2024 자동차 커뮤니티. Carffeine.</p>
+    </footer>
+</body>
+</html>

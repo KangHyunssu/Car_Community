@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 수정 | Car ffeine</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header class="header-top">
+        <div class="logo">
+            <a href="/" class="title-a"><h1>Car ffeine</h1></a> 
+        </div>
+        <div class="head-rt">
+            <div class="button-container">
+                <% if (user) { %>
+                    <a class="btn btn-outline-success btn-login"><%= user.nickname %></a>
+                    <a href="/logout" class="btn btn-outline-success btn-signup">로그아웃</a>
+                <% } else { %>
+                    <a href="/login" class="btn btn-outline-success btn-login">로그인</a>
+                    <a href="/signup" class="btn btn-outline-success btn-signup">회원가입</a>
+                <% } %>
+            </div>
+        </div>
+    </header>
+    <main class="main">
+        <!-- 게시글 수정 컨테이너 -->
+        <div class="write-container">
+            <!-- 페이지 제목 -->
+            <h1>게시글 수정</h1>
+            <!-- 게시글 수정 폼 -->
+            <form action="/board/posts/edit/<%= post.id %>" method="post" enctype="multipart/form-data">
+                <!-- 제목 입력 필드 라벨 -->
+                <label for="title">제목:</label>
+                <!-- 제목 입력 필드 -->
+                <input type="text" id="title" name="title" value="<%= post.title %>" required><br>
+                <!-- 내용 입력 필드 라벨 -->
+                <label for="content">내용:</label>
+                <!-- 내용 입력 필드 -->
+                <textarea id="content" name="content" required><%= post.content %></textarea><br>
+                <!-- 이미지가 있는 경우 이미지를 표시 -->
+                <% if (post && post.image_url) { %>
+                    <img src="<%= post.image_url %>" alt="Attached Image">
+                <% } %>
+                <!-- 이미지 변경 입력 필드 라벨 -->
+                <label for="image">이미지 변경:</label>
+                <!-- 이미지 변경 입력 필드 -->
+                <input type="file" id="image" name="image"><br>
+                <!-- 기존 이미지 URL을 저장하는 숨겨진 입력 필드 -->
+                <input type="hidden" name="oldImage" value="<%= post.image_url %>">
+                <!-- 폼 제출 버튼 -->
+                <button type="submit">수정하기</button>
+            </form>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <p>&copy; 2024 자동차 커뮤니티. Carffeine.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글 작성 | Car ffeine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header-top">
+        <div class="logo">
+          <a href="/" class="title-a"><h1>Car ffeine</h1></a> 
+        </div>
+        <div class="head-rt">
+            <div class="button-container">
+              <% if (user) { %>
+                <a class="btn btn-outline-success btn-login"><%= user.nickname %></a>
+                <a href="/logout" class="btn btn-outline-success btn-signup">로그아웃</a>
+              <% } else { %>
+                <a href="/login" class="btn btn-outline-success btn-login">로그인</a>
+                <a href="/signup" class="btn btn-outline-success btn-signup">회원가입</a>
+              <% } %>
+            </div>
+          </div>
+          </div>
+      </header>
+
+    <nav class="zzul">
+        </nav>
+
+        <main class="main">
+          <!-- 글 작성 컨테이너 -->
+          <div class="write-container">
+              <!-- 글 작성 제목 -->
+              <h2>글 작성</h2>
+              <!-- 글 작성 폼 -->
+              <form action="/write" method="post" enctype="multipart/form-data">
+                  <!-- 제목 입력 필드 -->
+                  <input type="text" name="title" placeholder="제목" required>
+                  <!-- 내용 입력 필드 -->
+                  <textarea name="content" placeholder="내용" required></textarea>
+                  <!-- 이미지 파일 업로드 필드 -->
+                  <input type="file" name="image">
+                  <!-- 작성 완료 버튼 -->
+                  <button type="submit">작성 완료</button>
+              </form>
+          </div>
+      </main>
+      
+
+    <footer>
+      <p>&copy; 2024 자동차 커뮤니티. Carffeine.</p>
+    </footer>
+</body>
+</html>
