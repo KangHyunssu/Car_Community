@@ -30,10 +30,10 @@ CAR FFEINE은 자동차 애호가들을 위한 실시간 커뮤니티 웹사이�
    - 모든 게시글을 데이터베이스에서 불러와 사용자에게 제공
 
 ## 사용된 기술 스택
-프론트엔드: HTML, CSS, JavaScript, EJS
-백엔드: Node.js, Express
-데이터베이스: MySQL
-실시간 통신: Socket.io
+**프론트엔드**: HTML, CSS, JavaScript, EJS<br/>
+**백엔드**: Node.js, Express<br/>
+**데이터베이스**: MySQL<br/>
+**실시간 통신**: Socket.io
 
 ## 전체 기능 블록도
 ![제목 없는 다이어그램 drawio](https://github.com/KangHyunssu/Car_Community/assets/128908098/c455c1e0-bf74-4b06-8e60-c5fa7ef7479f)
